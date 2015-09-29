@@ -1,0 +1,7 @@
+name = Age Formatter
+description = Integer field formatter to compute current age from year born.
+version = 1.x-1.0
+backdrop = 1.x
+type = module
+package = Fields
+

@@ -1,0 +1,39 @@
+<?php
+/**
+ * @file
+ * Integer field formatter to compute current age from year born.
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function age_formatter_field_formatter_info() {
+  return array(
+    'age_formatter_default' => array(
+      'label' => t('Age'),
+      'field types' => array('number_integer'),
+      'settings' => array(),
+      'description' => t('Computes current Age from Year Born.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function age_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'age_formatter_default':
+      foreach ($items as $delta => $item) {
+        $year = $item['value'];
+        $age = (date("md", date("U", mktime(0, 0, 0, 0, 0, $year))) > date("md") ? ((date("Y") - $year) - 1) : (date("Y") - $year));
+        $element[$delta] = array('#markup' => $age);
+      }
+      break;
+  }
+
+  return $element;
+}
